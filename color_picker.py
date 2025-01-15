@@ -7,7 +7,7 @@ import unicurses as uc
 
 from constants import ROW_GRAY_INDEX, ROW_BASIC_INDEX, BASIC_COLOR_COUNT, BASIC_DIM_COLOR_COUNT, GRAY_COLOR_START, GRAY_COLOR_COUNT, COLOR_MAX,  BLACK, WHITE, RGB_COLOR_COUNT, RGB_MAX_VALUE, BASIC_COLOR_NAMES
 from calculations import color_range, brightness_range, brightness, calc_color_256
-from functions import *
+from functions import colored_256, escape_str
 
 
 class ColorPicker(object):
@@ -272,6 +272,22 @@ class ColorPicker(object):
     self.screen.addstr("─┘\n")
 
   def _display_text(self):
+    green = "\033[38;5;2m"
+    end = "\033[0m"
+    self.screen.addstr("\n\n")
+
+    # TODO: actualy not print [[ !
+    self.screen.addstr(green + "TEST" + end)
+
+    self.screen.addstr("\n\n")
+    #self.screen.addstr("You can use the following escape sequences to change the text color:\n\n")
+    #color_start_fg, color_start_bg, _, color_end = colored_256(self.selected_color, "text", return_parts=True, background=True)
+    #self.screen.addstr("# Foreground:\n")
+    #self.screen.addstr("print(" + escape_str(color_start_fg) + " + text + " + escape_str(color_end) + ")\n\n")
+    #self.screen.addstr("# Background:\n")
+    #self.screen.addstr("print(" + escape_str(color_start_bg) + " + text + " + escape_str(color_end) + ")\n\n")
+    #self.screen.addstr("# Both combined:\n")
+    #self.screen.addstr("Both: print(" + escape_str(color_start_fg) + " + " + escape_str(color_start_bg) + " + text + " + escape_str(color_end) + ")\n\n")
     self.screen.addstr(" " * 25 + "Press 'q' to quit.")
 
   def draw(self):
