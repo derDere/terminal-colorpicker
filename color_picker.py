@@ -118,15 +118,15 @@ class ColorPicker(object):
     if self.row == ROW_BASIC_INDEX:
       self.screen.addstr(" ")
     self.screen.addstr("\n       │")
-    colE = self.col
-    if colE > BASIC_COLOR_COUNT - 1:
-      colE = BASIC_COLOR_COUNT - 1
-    self.screen.addstr("   " * colE)
+    col_actual = self.col
+    if col_actual > BASIC_COLOR_COUNT - 1:
+      col_actual = BASIC_COLOR_COUNT - 1
+    self.screen.addstr("   " * col_actual)
     if self.row == ROW_BASIC_INDEX:
       self.screen.addstr(" ")
     else:
       self.screen.addstr("   ")
-    self.screen.addstr("   " * (BASIC_COLOR_COUNT - colE - 1))
+    self.screen.addstr("   " * (BASIC_COLOR_COUNT - col_actual - 1))
     self.screen.addstr(" │\n")
     self.screen.addstr("       └")
     self.screen.addstr("───" * BASIC_COLOR_COUNT)
@@ -136,12 +136,12 @@ class ColorPicker(object):
   def _display_rgb_colors(self):
     if self.row <= ROW_BASIC_INDEX or self.row >= ROW_GRAY_INDEX:
       self.screen.attron(uc.A_DIM)
-    lineI = 0
+    line_index = 0
     self.screen.addstr(" ┌──")
     self.screen.addstr("──" * RGB_COLOR_COUNT * RGB_MAX_VALUE)
     self.screen.addstr("──┐\n")
     for line in self.field:
-      colI = 0
+      col_index = 0
       self.screen.addstr(" │ ")
       for cell in line:
         m1,m2,r,g,b = cell
@@ -151,16 +151,16 @@ class ColorPicker(object):
         color = calc_color_256(r, g, b)
         self.screen.attron(uc.COLOR_PAIR(color))
         cell = "  "
-        if self.row == lineI and self.col == colI:
+        if self.row == line_index and self.col == col_index:
           cell = ""
         self.screen.addstr(cell)
         self.screen.attroff(uc.COLOR_PAIR(color))
-        colI += 1
+        col_index += 1
       self.screen.addstr(" │")
-      if self.row == lineI:
+      if self.row == line_index:
         self.screen.addstr(" ")
       self.screen.addstr("\n")
-      lineI += 1
+      line_index += 1
     self.screen.addstr(" │ ")
     self.screen.addstr("  " * self.col)
     if self.row > ROW_BASIC_INDEX and self.row < ROW_GRAY_INDEX:
@@ -192,15 +192,15 @@ class ColorPicker(object):
       self.screen.addstr(" ")
     self.screen.addstr("\n")
     self.screen.addstr("       │ ")
-    colE = self.col
-    if colE > GRAY_COLOR_COUNT - 1:
-      colE = GRAY_COLOR_COUNT - 1
-    self.screen.addstr("  " * colE)
+    col_actual = self.col
+    if col_actual > (GRAY_COLOR_COUNT - 1):
+      col_actual = GRAY_COLOR_COUNT - 1
+    self.screen.addstr("  " * col_actual)
     if self.row == ROW_GRAY_INDEX:
       self.screen.addstr("")
     else:
       self.screen.addstr("  ")
-    self.screen.addstr("  " * (GRAY_COLOR_COUNT - colE - 1))
+    self.screen.addstr("  " * (GRAY_COLOR_COUNT - col_actual - 1))
     self.screen.addstr(" │\n")
     self.screen.addstr("       └")
     self.screen.addstr("──" * GRAY_COLOR_COUNT)
