@@ -5,6 +5,8 @@
 This is a simple color picker for the terminal. It allows the user to pick a color from the 256 color palette within the terminal.
 It can rather be used as a standalone tool using the ncolorpicker.sh script or as a TUI Control in its own curses screen.
 
+##
+
 ## Usage
 
 ### Usage Standalone
@@ -21,17 +23,15 @@ After the installation, you can run the color picker using the `ncolorpicker` co
 You can also do the installation steps manually:
 
 ```bash
-# Store Original Path
-ORIGINAL_PATH=$(pwd)
-
 # Install Python3 and pip
+sudo apt-get install python3
 sudo apt-get install python3-pip
 
 # Choose InstallPath
 INSTALL_PATH=~/.terminal-colorpicker
 
 # Create app directory in home folder
-mkdir -p $INSTALL_PATH
+mkdir -vp $INSTALL_PATH
 
 # Clone repository
 git clone https://github.com/derDere/terminal-colorpicker.git $INSTALL_PATH
@@ -43,19 +43,19 @@ cd $INSTALL_PATH
 git submodule update --init --recursive
 
 # Install Unicurses
-./unicurses/install_unicurses.sh
+./unicguard/install_unicurses.sh
+
+# Allow execution
+chmod +x $INSTALL_PATH/ncolorpicker.sh
 
 # Create symbolic link
 USR_LOCAL_BIN=~/.usr/local/bin
-mkdir -p $USR_LOCAL_BIN
+mkdir -vp $USR_LOCAL_BIN
 ln -s $INSTALL_PATH/ncolorpicker.sh $USR_LOCAL_BIN/ncolorpicker
 
 # Add USR_LOCAL_BIN to PATH
 echo 'export PATH=$PATH:$USR_LOCAL_BIN' >> ~/.bashrc
 source ~/.bashrc
-
-# Go back to the app directory
-cd $ORIGINAL_PATH
 ```
 
 ### Usage as TUI Control
