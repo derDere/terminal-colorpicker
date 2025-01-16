@@ -12,7 +12,7 @@ To quickly install the terminal-colorpicker run the following command.
 Please be sure to never run a script from a website without checking it first!
 
 ```bash
-sudo bash <(curl -s https://raw.githubusercontent.com/derDere/terminal-colorpicker/refs/heads/main/install.sh)
+bash <(curl -s https://raw.githubusercontent.com/derDere/terminal-colorpicker/refs/heads/main/install.sh)
 ```
 
 Afterwards you can use it with the `ncolorpicker` command.

@@ -1,10 +1,12 @@
 #!/bin/sh
 
 # Web Script Waring
-echo "Please be sure to never run a script from a website without checking it first!"
+echo ""
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo " Please be sure to never run a script from a website without checking it first!"
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 echo ""
 echo "This script will install the terminal-colorpicker on your system."
-echo ""
 echo "Please make sure you have git and python3 installed."
 echo ""
 echo "Are you sure you want to continue? (y/n)"
