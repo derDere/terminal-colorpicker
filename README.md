@@ -55,8 +55,16 @@ git submodule update --init --recursive
 # Install Unicurses
 ./unicguard/install_unicurses.sh
 
+# Creating launcher
+echo "#!/bin/sh" > ncolorpicker.sh
+echo "" >> ncolorpicker.sh
+echo "INSTALL_PATH=$INSTALL_PATH" >> ncolorpicker.sh
+echo "" >> ncolorpicker.sh
+echo "# A simple color picker script for your terminal" >> ncolorpicker.sh
+echo "python3 \$INSTALL_PATH/__init__.py" >> ncolorpicker.sh
+
 # Allow execution
-chmod +x $INSTALL_PATH/ncolorpicker.sh
+chmod +x ncolorpicker.sh
 
 # Create symbolic link
 USR_LOCAL_BIN=~/.usr/local/bin

@@ -39,6 +39,19 @@ cd ~/.TMP_TERMINAL_COLORPICKER
 echo "Installing submodules..."
 git submodule update --init --recursive
 
+# Creating launcher
+echo "Creating launcher..."
+sudo echo "#!/bin/sh" > ncolorpicker.sh
+sudo echo "" >> ncolorpicker.sh
+sudo echo "INSTALL_PATH=$INSTALL_PATH" >> ncolorpicker.sh
+sudo echo "" >> ncolorpicker.sh
+sudo echo "# A simple color picker script for your terminal" >> ncolorpicker.sh
+sudo echo "python3 \$INSTALL_PATH/__init__.py" >> ncolorpicker.sh
+
+# Allow execution
+echo "Allowing execution..."
+sudo chmod +x ncolorpicker.sh
+
 # Go back to the original path
 echo "Going back to the original path..."
 cd ~
@@ -58,10 +71,6 @@ cd $INSTALL_PATH
 # Install Unicurses
 echo "Installing Unicurses..."
 sudo ./unicguard/install_unicurses.sh
-
-# Allow execution
-echo "Allowing execution..."
-sudo chmod +x $INSTALL_PATH/ncolorpicker.sh
 
 # Create symbolic link
 echo "Creating symbolic link..."
