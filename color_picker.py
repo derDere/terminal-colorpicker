@@ -2,10 +2,11 @@
 """
 
 
+import random as rnd
 import unicurses as uc
 
 
-from constants import ROW_GRAY_INDEX, ROW_BASIC_INDEX, BASIC_COLOR_COUNT, BASIC_DIM_COLOR_COUNT, GRAY_COLOR_START, GRAY_COLOR_COUNT, COLOR_MAX,  BLACK, WHITE, RGB_COLOR_COUNT, RGB_MAX_VALUE, BASIC_COLOR_NAMES
+from constants import ROW_GRAY_INDEX, ROW_BASIC_INDEX, BASIC_COLOR_COUNT, BASIC_DIM_COLOR_COUNT, GRAY_COLOR_START, GRAY_COLOR_COUNT, COLOR_MAX,  BLACK, WHITE, RGB_COLOR_COUNT, RGB_MAX_VALUE, BASIC_COLOR_NAMES, _TC_W, _TC_G, _TC_O, _TC_Y, _TC_R, _TC_B, _TC_T
 from calculations import color_range, brightness_range, brightness, calc_color_256
 from functions import colored_256, escape_str
 
@@ -73,6 +74,11 @@ class ColorPicker(object):
         fg = WHITE
       uc.init_pair(i, fg, bg)
 
+  def _add_colored_str(self, color:int, text:str):
+    self.screen.attron(uc.color_pair(color) | uc.A_REVERSE)
+    self.screen.addstr(text)
+    self.screen.attroff(uc.color_pair(color) | uc.A_REVERSE)
+
   def _display_title(self):
     msg_lines = [
       "  ____      _              ____  _      _               ",
@@ -82,7 +88,10 @@ class ColorPicker(object):
       " \____\___/|_|\___/|_|    |_|   |_|\___|_|\_\___|_|  (_)"
     ]
     for line in msg_lines:
-      self.screen.addstr("     " + line + "\n")
+      self.screen.addstr("     ")
+      for c in line:
+        self._add_colored_str(rnd.choice(_TC_T), c)
+      self.screen.addstr("\n")
     self.screen.addstr("\n")
 
   def _display_basic_colors(self):
@@ -272,22 +281,62 @@ class ColorPicker(object):
     self.screen.addstr("─┘\n")
 
   def _display_text(self):
-    green = "\033[38;5;2m"
-    end = "\033[0m"
-    self.screen.addstr("\n\n")
-
-    # TODO: actualy not print [[ !
-    self.screen.addstr(green + "TEST" + end)
-
-    self.screen.addstr("\n\n")
-    #self.screen.addstr("You can use the following escape sequences to change the text color:\n\n")
-    #color_start_fg, color_start_bg, _, color_end = colored_256(self.selected_color, "text", return_parts=True, background=True)
-    #self.screen.addstr("# Foreground:\n")
-    #self.screen.addstr("print(" + escape_str(color_start_fg) + " + text + " + escape_str(color_end) + ")\n\n")
-    #self.screen.addstr("# Background:\n")
-    #self.screen.addstr("print(" + escape_str(color_start_bg) + " + text + " + escape_str(color_end) + ")\n\n")
-    #self.screen.addstr("# Both combined:\n")
-    #self.screen.addstr("Both: print(" + escape_str(color_start_fg) + " + " + escape_str(color_start_bg) + " + text + " + escape_str(color_end) + ")\n\n")
+    selected_color = self.selected_color
+    color_start_fg, color_start_bg, _, color_end = colored_256(selected_color, "text", return_parts=True, background=True)
+    extra = ""
+    if selected_color < 10:
+      extra += " "
+    if selected_color < 100:
+      extra += " "
+    self._add_colored_str(_TC_W, " ┌────────────────────────────────────────────────────────────────┐\n")
+    self._add_colored_str(_TC_W, " │ You can use the following escape sequences to change the text  │\n")
+    self._add_colored_str(_TC_W, " │ color:                                                         │\n")
+    self._add_colored_str(_TC_W, " ├────────────────────────────────────────────────────────────────┤\n")
+    self._add_colored_str(_TC_W, " │ ")
+    self._add_colored_str(_TC_G, "# Foreground:")
+    self._add_colored_str(_TC_W, (" " * 50) + "│\n")
+    self._add_colored_str(_TC_W, " │ ")
+    self._add_colored_str(_TC_O, "print")
+    self._add_colored_str(_TC_Y, "(")
+    self._add_colored_str(_TC_R, escape_str(color_start_fg))
+    self._add_colored_str(_TC_W,  " + ")
+    self._add_colored_str(_TC_B,  "text")
+    self._add_colored_str(_TC_W,  " + ")
+    self._add_colored_str(_TC_R, escape_str(color_end))
+    self._add_colored_str(_TC_Y, ")")
+    self._add_colored_str(_TC_W, extra + (" " * 21) + "│\n")
+    self._add_colored_str(_TC_W, " │" + (" " * 64) + "│\n")
+    self._add_colored_str(_TC_W, " │ ")
+    self._add_colored_str(_TC_G, "# Background:")
+    self._add_colored_str(_TC_W, (" " * 50) + "│\n")
+    self._add_colored_str(_TC_W, " │ ")
+    self._add_colored_str(_TC_O, "print")
+    self._add_colored_str(_TC_Y, "(")
+    self._add_colored_str(_TC_R, escape_str(color_start_bg))
+    self._add_colored_str(_TC_W,  " + ")
+    self._add_colored_str(_TC_B,  "text")
+    self._add_colored_str(_TC_W,  " + ")
+    self._add_colored_str(_TC_R, escape_str(color_end))
+    self._add_colored_str(_TC_Y, ")")
+    self._add_colored_str(_TC_W, extra + (" " * 21) + "│\n")
+    self._add_colored_str(_TC_W, " │" + (" " * 64) + "│\n")
+    self._add_colored_str(_TC_W, " │ ")
+    self._add_colored_str(_TC_G, "# Both combined:")
+    self._add_colored_str(_TC_W, (" " * 47) + "│\n")
+    self._add_colored_str(_TC_W, " │ ")
+    self._add_colored_str(_TC_O, "print")
+    self._add_colored_str(_TC_Y, "(")
+    self._add_colored_str(_TC_R, escape_str(color_start_fg))
+    self._add_colored_str(_TC_W,  " + ")
+    self._add_colored_str(_TC_R, escape_str(color_start_bg))
+    self._add_colored_str(_TC_W,  " + ")
+    self._add_colored_str(_TC_B,  "text")
+    self._add_colored_str(_TC_W,  " + ")
+    self._add_colored_str(_TC_R, escape_str(color_end))
+    self._add_colored_str(_TC_Y, ")")
+    self._add_colored_str(_TC_W, extra + extra + "  │\n")
+    self._add_colored_str(_TC_W, " │                                                                │\n")
+    self._add_colored_str(_TC_W, " └────────────────────────────────────────────────────────────────┘\n")
     self.screen.addstr(" " * 25 + "Press 'q' to quit.")
 
   def draw(self):
@@ -302,14 +351,19 @@ class ColorPicker(object):
         user_input = screen.getch()
         color_picker.handle_input(user_input)
     """
-    self.screen.move(0, 0)
-    self._display_title()
-    self._display_basic_colors()
-    self._display_rgb_colors()
-    self._display_gray_colors()
-    self._display_selection()
-    self._display_text()
-    self.screen.refresh()
+    try:
+      self.screen.move(0, 0)
+      self._display_title()
+      self._display_basic_colors()
+      self._display_rgb_colors()
+      self._display_gray_colors()
+      self._display_selection()
+      self._display_text()
+      self.screen.refresh()
+    except Exception as _:
+      self.screen.clear()
+      self.screen.addstr("Draw Error!")
+      self.screen.refresh()
 
   def handle_input(self, input:int):
     """Handle the user input. This function should be called after the user input is read.

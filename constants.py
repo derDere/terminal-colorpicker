@@ -29,3 +29,11 @@ ROW_GRAY_INDEX = ROW_COUNT - 1 - (1 if RGB_SKIP_BLACK else 0) - (1 if RGB_SKIP_W
 
 WHITE = BASIC_COLOR_COUNT - 1 # Last basic color is bright white
 BLACK = RGB_MIN_VALUE # First rgb color is dim black
+
+_TC_W = 7 # Text Color White
+_TC_G = 46 # Text Color Green
+_TC_O = 208 # Text Color Orange
+_TC_Y = 220 # Text Color Yellow
+_TC_R = 216 # Text Color Red
+_TC_B = 75 # Text Color Blue
+_TC_T = [1,2,3,4,5,6,7,9,10,11,12,13,14] # Title Colors

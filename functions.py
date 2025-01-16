@@ -11,7 +11,7 @@ def escape_str(s:str) -> str:
   Returns:
     The escaped string.
   """
-  return '"' + s.replace("\\", "\\\\").replace("\n", "\\n").replace("\t", "\\t").replace("\r", "\\r").replace("\b", "\\b").replace("\f", "\\f").replace("\v", "\\v") + '"'
+  return '"' + s.replace("\\", "\\\\").replace("\n", "\\n").replace("\t", "\\t").replace("\r", "\\r").replace("\b", "\\b").replace("\f", "\\f").replace("\v", "\\v").replace("\033", "\\033") + '"'
 
 
 def colored_256(color:int, text:str, return_parts:bool=False, foreground:bool=True, background:bool=False) -> str|tuple[str, str, str, str]:
