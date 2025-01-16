@@ -6,20 +6,26 @@ import random as rnd
 import unicurses as uc
 
 
-from constants import ROW_GRAY_INDEX, ROW_BASIC_INDEX, BASIC_COLOR_COUNT, BASIC_DIM_COLOR_COUNT, GRAY_COLOR_START, GRAY_COLOR_COUNT, COLOR_MAX,  BLACK, WHITE, RGB_COLOR_COUNT, RGB_MAX_VALUE, BASIC_COLOR_NAMES, _TC_W, _TC_G, _TC_O, _TC_Y, _TC_R, _TC_B, _TC_T
+from constants import ROW_GRAY_INDEX, ROW_BASIC_INDEX, BASIC_COLOR_COUNT, BASIC_DIM_COLOR_COUNT, GRAY_COLOR_START, GRAY_COLOR_COUNT, COLOR_MAX
+from constants import BLACK, WHITE, RGB_COLOR_COUNT, RGB_MAX_VALUE, BASIC_COLOR_NAMES, _TC_W, _TC_G, _TC_O, _TC_Y, _TC_R, _TC_B, _TC_T
 from calculations import color_range, brightness_range, brightness, calc_color_256
 from functions import colored_256, escape_str
 
 
 class ColorPicker(object):
+  """A color picker class that allows
+  the user to pick a color from the 256 color palette within the terminal.
+  """
 
-  screen:any
+  screen:any # type:ignore
   field:list[list[tuple[float,float,int,int,int]]]
   row:int
   col:int
 
   @property
   def selected_color(self):
+    """The selected color value.
+    """
     if self.row <= ROW_BASIC_INDEX:
       return self.col
     if self.row >= ROW_GRAY_INDEX:
@@ -82,10 +88,10 @@ class ColorPicker(object):
   def _display_title(self):
     msg_lines = [
       "  ____      _              ____  _      _               ",
-      " / ___|___ | | ___  _ __  |  _ \(_) ___| | _____ _ __ _ ",
-      "| |   / _ \| |/ _ \| '__| | |_) | |/ __| |/ / _ \ '__(_)",
+      " / ___|___ | | ___  _ __  |  _ \\(_) ___| | _____ _ __ _ ",
+      "| |   / _ \\| |/ _ \\| '__| | |_) | |/ __| |/ / _ \\ '__(_)",
       "| |__| (_) | | (_) | |    |  __/| | (__|   <  __/ |   _ ",
-      " \____\___/|_|\___/|_|    |_|   |_|\___|_|\_\___|_|  (_)"
+      " \\____\\___/|_|\\___/|_|    |_|   |_|\\___|_|\\_\\___|_|  (_)"
     ]
     for line in msg_lines:
       self.screen.addstr("     ")
@@ -248,8 +254,6 @@ class ColorPicker(object):
     while len(lines) < height:
       lines.append(" " * 26)
     lines = [" " * 26, *lines, " " * 26]
-    # add python string escape example: print("\033[1;31;40m Bright Red \033[0m")
-    # TODO: add python string escape example
 
     self.screen.addstr(" ┌─")
     self.screen.addstr("─" * 62)
@@ -365,12 +369,12 @@ class ColorPicker(object):
       self.screen.addstr("Draw Error!")
       self.screen.refresh()
 
-  def handle_input(self, input:int):
+  def handle_input(self, user_input:int):
     """Handle the user input. This function should be called after the user input is read.
     If you don't have a reasont to call this function manually, use the run() function instead.
 
     Args:
-      input: The user input as integer. This should be the result of the getch() function.
+      user_input: The user input as integer. This should be the result of the getch() function.
 
     Example:
       color_picker = ColorPicker(screen)
@@ -381,13 +385,13 @@ class ColorPicker(object):
     """
 
     # handle user input
-    if input == uc.KEY_UP:
+    if user_input == uc.KEY_UP:
       self.row -= 1
-    elif input == uc.KEY_DOWN:
+    elif user_input == uc.KEY_DOWN:
       self.row += 1
-    elif input == uc.KEY_LEFT:
+    elif user_input == uc.KEY_LEFT:
       self.col -= 1
-    elif input == uc.KEY_RIGHT:
+    elif user_input == uc.KEY_RIGHT:
       self.col += 1
 
     # correct values
