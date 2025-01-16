@@ -69,7 +69,7 @@ It is also strongly recommended to use the UnicursesGuard from the unicguard mod
 Go into your project directory and run the following command to add the terminal-colorpicker as a submodule:
 
 ```bash
-git submodule add https://github.com/derDere/terminal-colorpicker.git
+git submodule add https://github.com/derDere/terminal-colorpicker.git terminal_colorpicker
 ```
 
 #### Import and use the ColorPicker class with UnicursesGuard
@@ -79,9 +79,8 @@ It is strongly recommended to use the UnicursesGuard from the unicguard module t
 After creating the screen with the UnicursesGuard, you can create a ColorPicker object and run it.
 
 ```python
-import unicurses as uc
 from unicguard import UnicursesGuard
-from terminal-colorpicker import ColorPicker
+from terminal_colorpicker import ColorPicker
 
 with UnicursesGuard() as stdscr:
   color_picker = ColorPicker(stdscr)
